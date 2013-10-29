@@ -1,0 +1,10 @@
+<div ng-controller="instantSearchCtrl">
+  <div>
+    <input class="typeahead" type="text" ng-model="searchString" placeholder="Enter your search terms" typeahead="suggestion for suggestion in suggestions($viewValue)"/>
+  </div>
+  <ul>
+    <li ng-repeat="hits in results">
+      <span>{{hits.document.title}}</span>
+    </li>
+  </ul>
+</div>
