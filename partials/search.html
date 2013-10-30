@@ -1,6 +1,12 @@
 <div ng-controller="instantSearchCtrl">
   <div>
-    <input class="typeahead" type="text" ng-model="searchString" placeholder="Enter your search terms" typeahead="suggestion for suggestion in suggestions($viewValue)"/>
+    <input
+       autofocus="autofocus"
+       class="typeahead"
+       ng-model="searchString"
+       placeholder="Enter your search terms"
+       type="text"
+       typeahead="suggestion for suggestion in suggestions($viewValue)"/>
   </div>
   <ul>
     <li ng-repeat="hits in results">

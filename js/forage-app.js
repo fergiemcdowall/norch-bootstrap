@@ -1,4 +1,4 @@
-var app = angular.module('forageSearchUI', ['ngRoute', 'ui.bootstrap']);
+var app = angular.module('forageSearchUI', ['ngRoute', 'ngSanitize', 'ui.bootstrap']);
 
 //Controllers
 app.controller('instantSearchCtrl', function($scope, $http, limitToFilter) {
@@ -19,24 +19,24 @@ app.controller('tabCtrl', function($scope, $location) {
     return route === $location.path();
   }
 });
+app.controller('aboutCtrl', function($scope, $http) {
+  $http.get('README.md').success(function (data) {
+    $scope.readmeHTML = markdown.toHTML(data);
+  }).error(function () {});
+});
+
 
 
 //Routes
 app.config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
-      when('/indexer', {
-        templateUrl: '/partials/indexer.html',
-        controller: 'instantSearchCtrl'
-      }).
-      when('/about', {
-        templateUrl: '/partials/about.html'
-      }).
-      when('/search', {
-        templateUrl: '/partials/search.html'
-      }).
-      otherwise({
-        redirectTo: '/search'
-      });
+      when('/about', {templateUrl: '/partials/about.html'}).
+      when('/add', {templateUrl: '/partials/add.html'}).
+      when('/docs', {templateUrl: '/partials/docs.html'}).
+      when('/delete', {templateUrl: '/partials/delete.html'}).
+      when('/querybuilder', {templateUrl: '/partials/querybuilder.html'}).
+      when('/search', {templateUrl: '/partials/search.html'}).
+      otherwise({redirectTo: '/about'});
   }]);
 

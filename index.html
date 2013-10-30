@@ -4,31 +4,33 @@
     <title>Forage Bootstrap Search</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="bootstrap-dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <link href="css/typeahead.js-bootstrap.css" rel="stylesheet" media="screen">
+    <link href="css/forage-bootstrap.css" rel="stylesheet" media="screen">
   </head>
   <body>
-    <h1>Forage Search</h1>
-    <div class="tabbable" ng-controller="tabCtrl">
-      <ul class="nav nav-tabs">
-        <li ng-class="{active:isActive('/search')}">
-          <a href="#/search">Search</a>
-        </li>
-        <li ng-class="{active:isActive('/about')}">
-          <a href="#/about">About</a>
-        </li>
-        <li ng-class="{active:isActive('/indexer')}">
-          <a href="#/indexer">Indexer</a>
-        </li>
-      </ul>
-      <div class="tab-content" ng-view></div>
+    <div class="container">
+      <div class="page-header">
+        <h1>Forage<small> search engine</small></h1>
+      </div>
+      <div class="tabbable" ng-controller="tabCtrl">
+        <ul class="nav nav-tabs">
+          <li ng-class="{active:isActive('/search')}"><a href="#/search">Search</a></li>
+          <li ng-class="{active:isActive('/docs')}"><a href="#/docs">Docs</a></li>
+          <li ng-class="{active:isActive('/add')}"><a href="#/add">Add</a></li>
+          <li ng-class="{active:isActive('/delete')}"><a href="#/delete">Delete</a></li>
+          <li ng-class="{active:isActive('/querybuilder')}"><a href="#/querybuilder">Query Builder</a></li>
+          <li ng-class="{active:isActive('/about')}"><a href="#/about">About</a></li>
+        </ul>
+        <div id="tab-content-id" class="tab-content" ng-view></div>
+      </div>
     </div>
-
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="//code.jquery.com/jquery.js"></script>
+    <script src="js/markdown.min.js"></script>
     <script src="bootstrap-dist/js/bootstrap.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0-rc.3/angular.min.js"></script>
-    <script src="js/angular-route.js"></script>
-    <script src="js/angular-search-app.js"></script>
+    <script src="http://code.angularjs.org/1.2.0-rc.3/angular.min.js"></script>
+    <script src="http://code.angularjs.org/1.2.0-rc.3/angular-sanitize.min.js"></script>
+    <script src="http://code.angularjs.org/1.2.0-rc.3/angular-route.min.js"></script>
     <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.6.0.js"></script>
+    <script src="js/forage-app.js"></script>
   </body>
 </html>
