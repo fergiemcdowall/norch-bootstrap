@@ -2,16 +2,13 @@ var app = angular.module('forageSearchUI', ['ngRoute', 'ngSanitize', 'ui.bootstr
 
 //Controllers
 app.controller('instantSearchCtrl', function($scope, $http, limitToFilter) {
-  $scope.$watch('searchString', function () {
-    $http.get('search?q=' + $scope.searchString).success(function (data) {
-      var docs = data.hits;
-      $scope.results = docs;
-    }).error(function () {});
-  });
   $scope.suggestions = function(suggestion) {
     return $http.get("matcher?beginsWith=" + suggestion).then(function(response){
       return limitToFilter(response.data, 15);
     });
+  };
+  $scope.onSelect = function ($item) {
+    window.location = '#/search?q=' + $item
   };
 });
 app.controller('tabCtrl', function($scope, $location) {
@@ -32,6 +29,12 @@ app.controller('aboutCtrl', function($scope, $http, $sce) {
     $scope.trustPackageJSON = function() {    
       return $sce.trustAsHtml($scope.packageJSON);
     };
+  }).error(function () {});
+});
+app.controller('searchCtrl', function($scope, $http, $location) {
+  $http.get('search?q=' + $location.search()['q']).success(function (data) {
+    var docs = data.hits;
+    $scope.results = docs;
   }).error(function () {});
 });
 

@@ -1,16 +1,6 @@
-<div ng-controller="instantSearchCtrl">
-  <div>
-    <input
-       autofocus="autofocus"
-       class="typeahead"
-       ng-model="searchString"
-       placeholder="Enter your search terms"
-       type="text"
-       typeahead="suggestion for suggestion in suggestions($viewValue)"/>
+<div ng-controller="searchCtrl">
+  <div ng-repeat="hits in results">
+    <h3>{{hits.document.title}}</h3>
+    <span>{{hits.document.body}}</span>
   </div>
-  <ul>
-    <li ng-repeat="hits in results">
-      <span>{{hits.document.title}}</span>
-    </li>
-  </ul>
 </div>

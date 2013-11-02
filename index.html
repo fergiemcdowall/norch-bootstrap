@@ -8,20 +8,40 @@
   </head>
   <body>
     <div class="container">
-      <div class="page-header">
-        <h1>Forage<small> search engine</small></h1>
-      </div>
-      <div class="tabbable" ng-controller="tabCtrl">
-        <ul class="nav nav-tabs">
-          <li ng-class="{active:isActive('/search')}"><a href="#/search">Search</a></li>
+
+    <nav class="navbar navbar-default" role="navigation" ng-controller="tabCtrl">
+      <!-- Brand and toggle get grouped for better mobile display -->
+        
+      <a class="navbar-brand" href="#/about">Forage</a>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <form class="navbar-form navbar-left" role="search">
+            <div class="input-group" ng-controller="instantSearchCtrl">
+              <form action="search?q=moscow" method="get">
+                <input type="text"
+                       class="form-control"
+                       placeholder="Search"
+                       id="searchbox"
+                       autofocus="autofocus"
+                       class="typeahead"
+                       ng-model="searchString"
+                       typeahead="suggestion for suggestion in suggestions($viewValue)"
+                       typeahead-on-select="onSelect($item)">
+              </form>
+            </div>
+          </form>
           <li ng-class="{active:isActive('/add')}"><a href="#/add">Add</a></li>
           <li ng-class="{active:isActive('/delete')}"><a href="#/delete">Delete</a></li>
           <li ng-class="{active:isActive('/docs')}"><a href="#/docs">Documentation</a></li>
-          <li ng-class="{active:isActive('/about')}"><a href="#/about">About</a></li>
         </ul>
-        <div id="tab-content-id" class="tab-content" ng-view></div>
-      </div>
-    </div>
+      </div><!-- /.navbar-collapse -->
+    </nav>
+    
+    <div ng-view></div>
+
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="//code.jquery.com/jquery.js"></script>
     <script src="js/markdown.min.js"></script>
@@ -31,5 +51,6 @@
     <script src="http://code.angularjs.org/1.2.0-rc.3/angular-route.min.js"></script>
     <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.6.0.js"></script>
     <script src="js/forage-app.js"></script>
+    <script src="js/forage-app-jquery.js"></script>
   </body>
 </html>

@@ -3,3 +3,5 @@ html {overflow: -moz-scrollbars-vertical; overflow: scroll;}
 
 /*dirty hack to disable TOC links in HTMLed README.md*/
 .ng-binding li a {pointer-events: none;cursor: default;}
+.navbar-default{margin-top:20px}
+#searchbox{width:400px}
