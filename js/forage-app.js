@@ -19,9 +19,19 @@ app.controller('tabCtrl', function($scope, $location) {
     return route === $location.path();
   }
 });
-app.controller('aboutCtrl', function($scope, $http) {
+app.controller('docCtrl', function($scope, $http) {
   $http.get('README.md').success(function (data) {
     $scope.readmeHTML = markdown.toHTML(data);
+  }).error(function () {});
+});
+app.controller('aboutCtrl', function($scope, $http, $sce) {
+  $http.get('package.json').success(function (data) {
+    console.log(data);
+    $scope.packageJSON = JSON.stringify(data, null, 2);
+    //silly hack to get angular to render package.json in a div
+    $scope.trustPackageJSON = function() {    
+      return $sce.trustAsHtml($scope.packageJSON);
+    };
   }).error(function () {});
 });
 

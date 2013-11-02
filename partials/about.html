@@ -3,6 +3,9 @@
     <h1>Forage</h1>
     <p>A really simple search engine</p>
     <p><a href="http://www.foragejs.net" class="btn btn-primary btn-lg">Learn more</a></p>
+    <div id="about" ng-controller="aboutCtrl">
+      <pre ng-bind-html="trustPackageJSON()"></pre>
+    </div>
   </div>
 </div>
 
