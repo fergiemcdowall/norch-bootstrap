@@ -1,4 +1,10 @@
 <div ng-controller="searchCtrl">
+    <div ng-repeat="(facetname, facet) in facets">
+      <h3>{{facetname}}</h3>
+      <a href='#' ng-repeat="(facettag, facetcount) in facet">
+        {{facettag}}:{{facetcount}}
+      </a>
+    </div>
   <div ng-repeat="hits in results">
     <h3>{{hits.document.title}}</h3>
     <span>{{hits.document.body}}</span>

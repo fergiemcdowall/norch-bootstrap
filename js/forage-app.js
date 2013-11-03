@@ -33,8 +33,9 @@ app.controller('aboutCtrl', function($scope, $http, $sce) {
 });
 app.controller('searchCtrl', function($scope, $http, $location) {
   $http.get('search?q=' + $location.search()['q']).success(function (data) {
-    var docs = data.hits;
-    $scope.results = docs;
+    console.log(data);
+    $scope.facets = data.facets;
+    $scope.results = data.hits;
   }).error(function () {});
 });
 
