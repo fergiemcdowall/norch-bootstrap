@@ -32,10 +32,48 @@ app.controller('aboutCtrl', function($scope, $http, $sce) {
   }).error(function () {});
 });
 app.controller('searchCtrl', function($scope, $http, $location) {
-  $http.get('search?q=' + $location.search()['q']).success(function (data) {
+  var forageURL = 'search?q=' + $location.search()['q'];
+  var possibleFilters = ['places', 'topics', 'organisations'];
+  for (var i = 0; i < possibleFilters.length; i++) {
+    if ($location.search()['filter[' + possibleFilters[i] + '][]'])
+    forageURL += '&filter[' + possibleFilters[i] + '][]=' +
+      $location.search()['filter[' + possibleFilters[i] + '][]'];
+  }
+  console.log(forageURL);
+  $http.get(forageURL).success(function (data) {
     console.log(data);
-    $scope.facets = data.facets;
+    var filterQueryString = '';
+    var navs = {};
+    var filter = {}
+    if (data.query.filter) filter = data.query.filter;
+    for (var i in data.facets) {
+      //TODO deal with multiple values per filter
+      if (!filter[i]) {
+        for (var k in data.facets[i]) {
+          var nav = {};
+          nav['label'] = k;
+          nav['count'] = data.facets[i][k];
+          nav['url'] = ('#/' + forageURL + '&filter[' +
+                        i + '][]=' + k);
+          if (!navs[i]) navs[i] = [];
+          navs[i].push(nav);
+        }
+      }
+    }    
+    console.log(navs);
+    var activeFilters = [];
+    for (var i in data.query.filter) {
+      var thisActiveFilter = {};
+      thisActiveFilter['filterName'] = i;
+      thisActiveFilter['filterValue'] = data.query.filter[i][0];
+      thisActiveFilter['filterURL'] = 
+        '#/' + forageURL.replace('&filter[' + i + '][]=' + data.query.filter[i][0], '');
+      activeFilters.push(thisActiveFilter);
+    }
+    $scope.activeFilters = activeFilters;
+    $scope.facets = navs;
     $scope.results = data.hits;
+    $scope.query = data.query;
   }).error(function () {});
 });
 

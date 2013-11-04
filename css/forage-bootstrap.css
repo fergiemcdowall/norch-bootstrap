@@ -5,3 +5,4 @@ html {overflow: -moz-scrollbars-vertical; overflow: scroll;}
 .ng-binding li a {pointer-events: none;cursor: default;}
 .navbar-default{margin-top:20px}
 #searchbox{width:400px}
+.red{color:red}
