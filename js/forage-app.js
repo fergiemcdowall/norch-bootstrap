@@ -32,7 +32,8 @@ app.controller('aboutCtrl', function($scope, $http, $sce) {
   }).error(function () {});
 });
 app.controller('searchCtrl', function($scope, $http, $location) {
-  var forageURL = 'search?q=' + $location.search()['q'];
+  var q = $location.search()['q'];
+  var forageURL = 'search?q=' + q;
   var possibleFilters = ['places', 'topics', 'organisations'];
   for (var i = 0; i < possibleFilters.length; i++) {
     if ($location.search()['filter[' + possibleFilters[i] + '][]'])
@@ -41,7 +42,7 @@ app.controller('searchCtrl', function($scope, $http, $location) {
   }
   console.log(forageURL);
   $http.get(forageURL).success(function (data) {
-    console.log(data);
+//    console.log(data);
     var filterQueryString = '';
     var navs = {};
     var filter = {}
@@ -73,7 +74,8 @@ app.controller('searchCtrl', function($scope, $http, $location) {
     $scope.activeFilters = activeFilters;
     $scope.facets = navs;
     $scope.results = data.hits;
-    $scope.query = data.query;
+    $scope.query = q;
+    $scope.totalHits = data.totalHits;
   }).error(function () {});
 });
 

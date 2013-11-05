@@ -9,7 +9,9 @@
   <body>
     <div class="container">
 
-    <nav class="navbar navbar-default" role="navigation" ng-controller="tabCtrl">
+    <nav class="navbar navbar-default navbar-fixed-top"
+         role="navigation"
+         ng-controller="tabCtrl">
       <!-- Brand and toggle get grouped for better mobile display -->
         
       <a class="navbar-brand" href="#/about">Forage</a>
@@ -40,7 +42,7 @@
       </div><!-- /.navbar-collapse -->
     </nav>
     
-    <div ng-view></div>
+    <div id="viewdiv" ng-view></div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="//code.jquery.com/jquery.js"></script>

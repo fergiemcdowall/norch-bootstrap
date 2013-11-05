@@ -1,17 +1,30 @@
 <div ng-controller="searchCtrl">
+  <div ng-if="activeFilters">
+    <div class="panel panel-danger">
+      <div class="panel-heading">
+        <h3 class="panel-title">Filters</h3>
+      </div>
+      <div class="panel-body">
+        <a href="{{f.filterURL}}" ng-repeat="f in activeFilters">
+          {{f.filterName}}:{{f.filterValue}}
+        </a>
+      </div>
+    </div>
+  </div>
   <div ng-repeat="(facetname, facet) in facets">
-    <h4>{{facetname}}</h4>
-    <a href="{{facety.url}}"
-       ng-repeat="facety in facet">
-      {{facety.label}}:{{facety.count}}
-    </a>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">{{facetname}}</h3>
+      </div>
+      <div class="panel-body">
+        <a href="{{facety.url}}"
+           ng-repeat="facety in facet">
+          {{facety.label}}:{{facety.count}}
+        </a>
+      </div>
+    </div>
   </div>
-  <div class="text-right" ng-if="activeFilters">
-    <h4>Filters</h4>
-    <a class="red" href="{{f.filterURL}}" ng-repeat="f in activeFilters">
-      {{f.filterName}}:{{f.filterValue}}
-    </a>
-  </div>
+  <h2>{{totalHits}} <small>hits for</small> {{query}}</h2>
   <div ng-repeat="hits in results">
     <h3>{{hits.document.title}}</h3>
     <span>{{hits.document.body}}</span>

@@ -6,3 +6,5 @@ html {overflow: -moz-scrollbars-vertical; overflow: scroll;}
 .navbar-default{margin-top:20px}
 #searchbox{width:400px}
 .red{color:red}
+
+#viewdiv{padding-top:100px}
