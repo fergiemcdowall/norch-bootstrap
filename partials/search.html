@@ -1,17 +1,18 @@
 <div ng-controller="searchCtrl">
-  <div ng-if="activeFilters">
+  <h2>{{forage.totalHits}} <small>hits for</small> {{forage.q}}</h2>
+  <div ng-if="forage.activeFilters">
     <div class="panel panel-danger">
       <div class="panel-heading">
         <h3 class="panel-title">Filters</h3>
       </div>
       <div class="panel-body">
-        <a href="{{f.filterURL}}" ng-repeat="f in activeFilters">
-          {{f.filterName}}:{{f.filterValue}}
+        <a href="{{f.filterURL}}" ng-repeat="f in forage.activeFilters">
+          <b>{{f.filterName}}:</b>{{f.filterValue}}
         </a>
       </div>
     </div>
   </div>
-  <div ng-repeat="(facetname, facet) in facets">
+  <div ng-repeat="(facetname, facet) in forage.facets">
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">{{facetname}}</h3>
@@ -24,9 +25,23 @@
       </div>
     </div>
   </div>
-  <h2>{{totalHits}} <small>hits for</small> {{query}}</h2>
+  <div>
+    <div infinite-scroll='forage.nextPage()'
+         infinite-scroll-disabled='forage.busy'
+         infinite-scroll-distance='1'>
+      <div ng-repeat='item in forage.items'>
+        <p>
+          <h3>{{item.document.title}}</h3>
+          <span>{{item.document.body}}</span>
+        </p>
+      </div>
+      <div ng-show='forage.busy'>Loading data...</div>
+    </div>
+  </div>
+<!--
   <div ng-repeat="hits in results">
     <h3>{{hits.document.title}}</h3>
     <span>{{hits.document.body}}</span>
   </div>
+-->
 </div>

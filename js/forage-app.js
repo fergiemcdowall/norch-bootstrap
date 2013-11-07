@@ -1,4 +1,7 @@
-var app = angular.module('forageSearchUI', ['ngRoute', 'ngSanitize', 'ui.bootstrap']);
+var app = angular.module('forageSearchUI', ['ngRoute',
+                                            'ngSanitize',
+                                            'ui.bootstrap',
+                                            'infinite-scroll']);
 
 //Controllers
 app.controller('instantSearchCtrl', function($scope, $http, limitToFilter) {
@@ -31,54 +34,75 @@ app.controller('aboutCtrl', function($scope, $http, $sce) {
     };
   }).error(function () {});
 });
-app.controller('searchCtrl', function($scope, $http, $location) {
-  var q = $location.search()['q'];
-  var forageURL = 'search?q=' + q;
-  var possibleFilters = ['places', 'topics', 'organisations'];
-  for (var i = 0; i < possibleFilters.length; i++) {
-    if ($location.search()['filter[' + possibleFilters[i] + '][]'])
-    forageURL += '&filter[' + possibleFilters[i] + '][]=' +
-      $location.search()['filter[' + possibleFilters[i] + '][]'];
-  }
-  console.log(forageURL);
-  $http.get(forageURL).success(function (data) {
-//    console.log(data);
-    var filterQueryString = '';
-    var navs = {};
-    var filter = {}
-    if (data.query.filter) filter = data.query.filter;
-    for (var i in data.facets) {
-      //TODO deal with multiple values per filter
-      if (!filter[i]) {
-        for (var k in data.facets[i]) {
-          var nav = {};
-          nav['label'] = k;
-          nav['count'] = data.facets[i][k];
-          nav['url'] = ('#/' + forageURL + '&filter[' +
-                        i + '][]=' + k);
-          if (!navs[i]) navs[i] = [];
-          navs[i].push(nav);
-        }
-      }
-    }    
-    console.log(navs);
-    var activeFilters = [];
-    for (var i in data.query.filter) {
-      var thisActiveFilter = {};
-      thisActiveFilter['filterName'] = i;
-      thisActiveFilter['filterValue'] = data.query.filter[i][0];
-      thisActiveFilter['filterURL'] = 
-        '#/' + forageURL.replace('&filter[' + i + '][]=' + data.query.filter[i][0], '');
-      activeFilters.push(thisActiveFilter);
-    }
-    $scope.activeFilters = activeFilters;
-    $scope.facets = navs;
-    $scope.results = data.hits;
-    $scope.query = q;
-    $scope.totalHits = data.totalHits;
-  }).error(function () {});
+app.controller('searchCtrl', function($scope, Forage) {
+  $scope.forage = new Forage();
 });
 
+// constructor function to encapsulate HTTP and pagination logic
+app.factory('Forage', function($http, $location) {
+  var Forage = function() {
+    this.activeFilters = {};
+    this.busy = false;
+    this.facets = {};
+    this.items = [];
+    this.offset = 0;
+    this.pagesize = 20;
+    this.totalHits = 0;
+  };
+
+  Forage.prototype.nextPage = function() {
+    this.q = $location.search()['q'];
+    if (this.busy) return;
+    this.busy = true;
+    if ((this.offset) > this.totalHits) return;
+    var url = 'search?q=' + this.q + '&offset=' + this.offset +
+      '&pagesize=' + this.pagesize;
+    var possibleFilters = ['places', 'topics', 'organisations'];
+    for (var i = 0; i < possibleFilters.length; i++) {
+      if ($location.search()['filter[' + possibleFilters[i] + '][]'])
+        url += '&filter[' + possibleFilters[i] + '][]=' +
+        $location.search()['filter[' + possibleFilters[i] + '][]'];
+    }
+    $http.get(url).success(function(data) {
+      console.log(url);
+      var filterQueryString = '';
+      var navs = {};
+      var filter = {}
+      if (data.query.filter) filter = data.query.filter;
+      for (var i in data.facets) {
+        //TODO deal with multiple values per filter
+        if (!filter[i]) {
+          for (var k in data.facets[i]) {
+            var nav = {};
+            nav['label'] = k;
+            nav['count'] = data.facets[i][k];
+            nav['url'] = ('#/' + url + '&filter[' +
+                          i + '][]=' + k);
+            if (!navs[i]) navs[i] = [];
+            navs[i].push(nav);
+          }
+        }
+      } 
+//      console.log(navs);
+      var activeFilters = [];
+      for (var i in data.query.filter) {
+        var thisActiveFilter = {};
+        thisActiveFilter['filterName'] = i;
+        thisActiveFilter['filterValue'] = data.query.filter[i][0];
+        thisActiveFilter['filterURL'] = 
+          '#/' + url.replace('&filter[' + i + '][]=' + data.query.filter[i][0], '');
+        activeFilters.push(thisActiveFilter);
+      }
+      this.activeFilters = activeFilters;
+      this.facets = navs;
+      this.items = this.items.concat(data.hits);
+      this.offset = this.offset + 20;
+      this.busy = false;
+      this.totalHits = data.totalHits;
+    }.bind(this));
+  };
+  return Forage;
+});
 
 
 //Routes
