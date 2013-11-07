@@ -13,28 +13,35 @@
          role="navigation"
          ng-controller="tabCtrl">
       <!-- Brand and toggle get grouped for better mobile display -->
-        
-      <a class="navbar-brand" href="#/about">Forage</a>
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle"
+                data-toggle="collapse"
+                data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#/about">Forage</a>
+      </div>
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <ul class="nav navbar-nav">
-        </ul>
+        <form class="navbar-form navbar-left" role="search">
+          <div class="input-group" ng-controller="instantSearchCtrl">
+            <form action="search?q=moscow" method="get">
+              <input type="text"
+                     class="form-control"
+                     placeholder="Search"
+                     id="searchbox"
+                     autofocus="autofocus"
+                     class="typeahead"
+                     ng-model="searchString"
+                     typeahead="suggestion for suggestion in suggestions($viewValue)"
+                     typeahead-on-select="onSelect($item)">
+            </form>
+          </div>
+        </form>
         <ul class="nav navbar-nav navbar-right">
-          <form class="navbar-form navbar-left" role="search">
-            <div class="input-group" ng-controller="instantSearchCtrl">
-              <form action="search?q=moscow" method="get">
-                <input type="text"
-                       class="form-control"
-                       placeholder="Search"
-                       id="searchbox"
-                       autofocus="autofocus"
-                       class="typeahead"
-                       ng-model="searchString"
-                       typeahead="suggestion for suggestion in suggestions($viewValue)"
-                       typeahead-on-select="onSelect($item)">
-              </form>
-            </div>
-          </form>
           <li ng-class="{active:isActive('/add')}"><a href="#/add">Add</a></li>
           <li ng-class="{active:isActive('/delete')}"><a href="#/delete">Delete</a></li>
           <li ng-class="{active:isActive('/docs')}"><a href="#/docs">Documentation</a></li>
