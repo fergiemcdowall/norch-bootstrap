@@ -54,7 +54,10 @@ app.factory('Forage', function($http, $location) {
     this.q = $location.search()['q'];
     if (this.busy) return;
     this.busy = true;
-    if ((this.offset) > this.totalHits) return;
+    if ((this.offset) > this.totalHits) {
+      this.busy = false;
+      return;
+    }
     var url = 'search?q=' + this.q + '&offset=' + this.offset +
       '&pagesize=' + this.pagesize;
     var possibleFilters = ['places', 'topics', 'organisations'];
