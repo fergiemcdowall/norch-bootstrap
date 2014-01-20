@@ -31,8 +31,8 @@
          infinite-scroll-distance='1'>
       <div ng-repeat='item in forage.items'>
         <p>
-          <h3>{{item.document.title}}</h3>
-          <span>{{item.document.body}}</span>
+          <h3>{{item.document.id}}</h3>
+          <span ng-bind-html="item.document.teaser"></span>
         </p>
       </div>
       <div ng-show='forage.busy'>Loading data...</div>
