@@ -66,6 +66,7 @@ app.factory('Forage', function($http, $location) {
         url += '&filter[' + possibleFilters[i] + '][]=' +
         $location.search()['filter[' + possibleFilters[i] + '][]'];
     }
+    url += '&teaser=readme'
     $http.get(url).success(function(data) {
       console.log(url);
       var filterQueryString = '';
@@ -120,4 +121,5 @@ app.config(['$routeProvider',
       when('/search', {templateUrl: '/partials/search.html'}).
       otherwise({redirectTo: '/about'});
   }]);
+
 
