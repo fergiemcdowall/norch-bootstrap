@@ -48,6 +48,7 @@ app.factory('Forage', function($http, $location) {
     this.offset = 0;
     this.pagesize = 20;
     this.totalHits = 0;
+//    this.teaser = 'body';
   };
 
   Forage.prototype.nextPage = function() {
@@ -66,7 +67,7 @@ app.factory('Forage', function($http, $location) {
         url += '&filter[' + possibleFilters[i] + '][]=' +
         $location.search()['filter[' + possibleFilters[i] + '][]'];
     }
-    url += '&teaser=readme'
+    url += '&teaser=body'
     $http.get(url).success(function(data) {
       console.log(url);
       var filterQueryString = '';
