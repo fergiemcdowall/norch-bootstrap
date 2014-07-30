@@ -1,6 +1,6 @@
 {
   "name": "forage-bootstrap",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A lighweight bootstrap-angular.js frontend for Forage.js",
   "main": "index.js",
   "scripts": {
