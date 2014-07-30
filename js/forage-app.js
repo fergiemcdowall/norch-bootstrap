@@ -63,20 +63,38 @@ app.factory('Forage', function($http, $location) {
       '&pagesize=' + this.pagesize;
     var possibleFilters = ['places', 'topics', 'organisations'];
     for (var i = 0; i < possibleFilters.length; i++) {
-      if ($location.search()['filter[' + possibleFilters[i] + '][]'])
+      if ($location.search()['filter[' + possibleFilters[i] + '][]']) {
         url += '&filter[' + possibleFilters[i] + '][]=' +
         $location.search()['filter[' + possibleFilters[i] + '][]'];
+      }
     }
-    url += '&teaser=body'
+    if ($location.search()['facets']) {
+      url += '&facets=' + $location.search()['facets'];
+    }
+    url += '&teaser=body';
+    console.log(url);
     $http.get(url).success(function(data) {
       console.log(url);
       var filterQueryString = '';
       var navs = {};
       var filter = {}
       if (data.query.filter) filter = data.query.filter;
+
       for (var i in data.facets) {
         //TODO deal with multiple values per filter
         if (!filter[i]) {
+          var thisFacetCat = data.facets[i];
+          for (var k = 0; k < thisFacetCat.length; k++) {
+            var nav = {};
+            nav['label'] = thisFacetCat[k].key;
+            nav['count'] = thisFacetCat[k].value;
+            nav['url'] = ('#/' + url + '&filter[' +
+                          i + '][]=' + thisFacetCat[k].key);
+            if (!navs[i]) navs[i] = [];
+            navs[i].push(nav);
+          }
+
+/*
           for (var k in data.facets[i]) {
             var nav = {};
             nav['label'] = k;
@@ -86,8 +104,10 @@ app.factory('Forage', function($http, $location) {
             if (!navs[i]) navs[i] = [];
             navs[i].push(nav);
           }
+*/
         }
-      } 
+      }
+
 //      console.log(navs);
       var activeFilters = [];
       for (var i in data.query.filter) {
