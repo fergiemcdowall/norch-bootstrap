@@ -1,4 +1,4 @@
-var app = angular.module('forageSearchUI', ['ngRoute',
+var app = angular.module('norchSearchUI', ['ngRoute',
                                             'ngSanitize',
                                             'ui.bootstrap',
                                             'infinite-scroll']);
@@ -34,13 +34,13 @@ app.controller('aboutCtrl', function($scope, $http, $sce) {
     };
   }).error(function () {});
 });
-app.controller('searchCtrl', function($scope, Forage) {
-  $scope.forage = new Forage();
+app.controller('searchCtrl', function($scope, Norch) {
+  $scope.norch = new Norch();
 });
 
 // constructor function to encapsulate HTTP and pagination logic
-app.factory('Forage', function($http, $location) {
-  var Forage = function() {
+app.factory('Norch', function($http, $location) {
+  var Norch = function() {
     this.activeFilters = {};
     this.busy = false;
     this.facets = {};
@@ -51,7 +51,7 @@ app.factory('Forage', function($http, $location) {
 //    this.teaser = 'body';
   };
 
-  Forage.prototype.nextPage = function() {
+  Norch.prototype.nextPage = function() {
     this.q = $location.search()['q'];
     if (this.busy) return;
     this.busy = true;
@@ -126,7 +126,7 @@ app.factory('Forage', function($http, $location) {
       this.totalHits = data.totalHits;
     }.bind(this));
   };
-  return Forage;
+  return Norch;
 });
 
 
