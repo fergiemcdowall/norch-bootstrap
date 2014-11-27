@@ -9,7 +9,7 @@
   <body>
     <div class="container">
 
-    <nav class="navbar navbar-default navbar-fixed-top"
+    <nav class="navbar navbar-default"
          role="navigation"
          ng-controller="tabCtrl">
       <!-- Brand and toggle get grouped for better mobile display -->
@@ -46,12 +46,11 @@
           <li ng-class="{active:isActive('/delete')}"><a href="#/delete">Delete</a></li>
           <li ng-class="{active:isActive('/docs')}"><a href="#/docs">Documentation</a></li>
         </ul>
-      </div><!-- /.navbar-collapse -->
+      </div>
     </nav>
     
     <div id="viewdiv" ng-view></div>
-
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <!-- Inject angular an jquery and other good stuff. -->
     <script src="//code.jquery.com/jquery.js"></script>
     <script src="js/markdown.min.js"></script>
     <script src="bootstrap-dist/js/bootstrap.min.js"></script>

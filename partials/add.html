@@ -16,4 +16,20 @@
       Upload to Index
     </button>
   </p>
+  <form action="/indexer" method="POST" enctype="multipart/form-data">
+    <input type="file" id="document" name="document">
+    <p>
+      <input type="text"
+             class="span8"
+             placeholder="filter fields (comma separated list)"
+             id="filterOn"
+             name="filterOn">
+    </p>
+    <p>
+      <button class="btn btn-large" type="submit">
+        Upload to Index
+      </button>
+    </p>
+  </form>
+
 </form>
