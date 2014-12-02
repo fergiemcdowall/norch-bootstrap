@@ -2,18 +2,46 @@
 <p>
   See <a href="/#docs">documentation</a> for more info
 </p>
-<form action="/indexer" method="POST" enctype="multipart/form-data">
-  <input type="file" id="document" name="document">
-  <p>
-    <input type="text"
-           class="span8"
-           placeholder="filter fields (comma separated list)"
-           id="filterOn"
-           name="filterOn">
-  </p>
-  <p>
-    <button class="btn btn-large" type="submit">
-      Upload to Index
-    </button>
-  </p>
-</form>
+<div class="row">
+  <form action="/indexer" method="POST" enctype="multipart/form-data">
+    <div class="form-group">
+      <div class="col-sm-4">
+        <input type="file" id="document" name="document">
+        <input type="text"
+               class="form-control"
+               placeholder="filter fields (comma separated list)"
+               id="filterOn"
+               name="filterOn">
+        <button class="btn btn-default" type="submit">
+          Upload to Index
+        </button>
+      </div>  
+    </div>
+  </form>
+</div>
+Or perhaps you just want to write some JSON here?
+
+<div class="row">
+   <div class="form-group">
+      <div class="col-sm-6 input-group">
+        
+        <textarea rows="6"
+                class="form-control" 
+                ng-model="jsonString" 
+                id="json-input"
+                >
+        </textarea>
+      <button class="btn btn-default" ng-click="index()">Lets do it!</button>
+      </div>
+    </div>
+  <div class="row" ng-show="msg">
+  <div class="alert alert-success col-sm-4" role="alert">
+     {{msg}}
+  </div>
+  </div>
+  <div class="row" ng-show="err">
+    <div class="alert alert-warning col-sm-4" role="alert">
+      {{err}}
+    </div>
+  </div>
+</div>

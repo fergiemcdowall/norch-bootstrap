@@ -7,7 +7,6 @@ html {overflow: -moz-scrollbars-vertical; overflow: scroll;}
 #searchbox{width:400px}
 .red{color:red}
 
-#viewdiv{padding-top:100px}
-
+#viewdiv{padding-top: 50px}
 
 .sc-em{font-weight:bold}
