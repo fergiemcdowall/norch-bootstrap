@@ -128,7 +128,7 @@ angular
               return thisActiveFilter;
             }, []);
 		} else {
-		  this.activeFilters = {};
+		  this.activeFilters = [];
 		}
         this.facets = navs;
         this.items = this.items.concat(data.hits);
