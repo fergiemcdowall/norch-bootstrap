@@ -1,3 +1,5 @@
+'use strict';
+
 angular
   .module('norchSearchUI', [
     'ngRoute',
@@ -5,39 +7,65 @@ angular
     'ui.bootstrap',
     'infinite-scroll'
   ])
-  .controller('instantSearchCtrl', function($scope, $window, $http, limitToFilter) {
-    $scope.suggestions = function(suggestion) {
-      return $http.get("matcher?beginsWith=" + suggestion)
-        .then(function (response) {
+  .controller('instantSearchCtrl',
+    function ($scope, $window, $http, limitToFilter) {
+      $scope.suggestions = function (suggestion) {
+        return $http.get("matcher?beginsWith=" + suggestion)
+          .then(function (response) {
             return limitToFilter(response.data, 15);
           });
-    };
-    $scope.onSelect = function ($item) {
-      $window.location = '#/search?q=' + $item;
-    };
-  })
-  .controller('tabCtrl', function($scope, $location) {
-    $scope.isActive = function(route) {
+      };
+      $scope.onSelect = function ($item) {
+        $window.location = '#/search?q=' + $item;
+      };
+    })
+  .controller('tabCtrl', function ($scope, $location) {
+    $scope.isActive = function (route) {
       return route === $location.path();
     };
   })
-  .controller('docCtrl', function($scope, $http) {
+  .controller('docCtrl', function ($scope, $http) {
     $http.get('README.md').success(function (data) {
       $scope.readmeHTML = markdown.toHTML(data);
-    }).error(function () {});
+    });
   })
-  .controller('aboutCtrl', function($scope, $http, $sce) {
+  .controller('aboutCtrl', function ($scope, $http, $sce) {
     $http.get('package.json').success(function (data) {
       $scope.packageJSON = JSON.stringify(data, null, 2);
       $scope.trustPackageJSON = function () {
         return $sce.trustAsHtml($scope.packageJSON);
       };
-    }).error(function () {});
+    });
   })
-  .controller('searchCtrl', function($scope, Norch) {
+  .controller('searchCtrl', function ($scope, Norch) {
     $scope.norch = new Norch();
   })
-  .factory('Norch', function($http, $location) {
+  .controller('addCtrl', function ($scope, $http) {
+    $scope.jsonString = '';
+    $scope.msg = '';
+    $scope.err = '';
+    var json = '';
+    $scope.index = function () {
+      try {
+        json = JSON.parse($scope.jsonString);
+      } catch (e) {
+        $scope.err = 'Invalid JSON';
+        $scope.msg = '';
+        return;
+      }
+      $http.post('/indexer', {document: json})
+        .success(function () {
+          $scope.msg = 'Success!';
+          $scope.err = '';
+        })
+        .error(function (err) {
+          $scope.err = err;
+          $scope.msg = '';
+        });
+    };
+
+  })
+  .factory('Norch', function ($http, $location) {
     var Norch = function() {
       this.activeFilters = {};
       this.busy = false;
@@ -110,13 +138,19 @@ angular
     return Norch;
   })
   .config(function($routeProvider) {
-      $routeProvider.
-        when('/about', {templateUrl: '/partials/about.html'}).
-        when('/add', {templateUrl: '/partials/add.html'}).
-        when('/docs', {templateUrl: '/partials/docs.html'}).
-        when('/delete', {templateUrl: '/partials/delete.html'}).
-        when('/search', {templateUrl: '/partials/search.html'}).
-        otherwise({redirectTo: '/about'});
+      $routeProvider
+        .when('/about', {templateUrl: '/partials/about.html'})
+        .when('/add', {
+          templateUrl: '/partials/add.html',
+          controller: 'addCtrl'
+        })
+        .when('/docs', {
+          templateUrl: '/partials/docs.html',
+          controller: 'docCtrl'
+        })
+        .when('/delete', {templateUrl: '/partials/delete.html'})
+        .when('/search', {templateUrl: '/partials/search.html'})
+        .otherwise({redirectTo: '/about'});
   });
 
 
