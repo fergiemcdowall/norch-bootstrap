@@ -117,19 +117,16 @@ angular
             }
           }
         }
-		if (data.query.filter) {
-          this.activeFilters = data.query.filter
-            .reduce(function (prev, curr, idx, arr) {
-              var thisActiveFilter = {};
-              thisActiveFilter['filterName'] = idx;
-              thisActiveFilter['filterValue'] = data.query.filter[idx][0];
-              var replacer = '&filter[' + idx + '][]=' + data.query.filter[i][0];
-              thisActiveFilter['filterURL'] = '#/' + url.replace(replacer, '');
-              return thisActiveFilter;
-            }, []);
-		} else {
-		  this.activeFilters = [];
-		}
+        var activeFilters = [];
+        for (var i in data.query.filter) {
+          var thisActiveFilter = {};
+          thisActiveFilter['filterName'] = i;
+          thisActiveFilter['filterValue'] = data.query.filter[i][0];
+          thisActiveFilter['filterURL'] =
+          '#/' + url.replace('&filter[' + i + '][]=' + data.query.filter[i][0], '');
+          activeFilters.push(thisActiveFilter);
+        }
+        this.activeFilters = activeFilters;
         this.facets = navs;
         this.items = this.items.concat(data.hits);
         this.offset = this.offset + 20;
