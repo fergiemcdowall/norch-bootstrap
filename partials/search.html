@@ -1,6 +1,6 @@
 <div ng-controller="searchCtrl">
   <h2>{{norch.totalHits}} <small>hits for</small> {{norch.q}}</h2>
-  <div ng-if="norch.activeFilters">
+  <div ng-if="norch.activeFilters.length">
     <div class="panel panel-danger">
       <div class="panel-heading">
         <h3 class="panel-title">Filters</h3>
