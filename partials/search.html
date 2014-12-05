@@ -30,18 +30,18 @@
          infinite-scroll-disabled='norch.busy'
          infinite-scroll-distance='1'>
       <div ng-repeat='item in norch.items'>
-        <p>
-          <h3>{{item.document.title}}</h3>
-          <span ng-bind-html="item.document.teaser"></span>
-        </p>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div ng-repeat='(key, value) in item.document'>
+              <b>{{key}}:</b> {{value}}
+            </div>
+<!-- TODO: find the updated way to render the teaser in Angular
+            <span ng-bind-html='item.document.teaser'></span>
+-->
+          </div>
+        </div>
       </div>
       <div ng-show='norch.busy'>Loading data...</div>
     </div>
   </div>
-<!--
-  <div ng-repeat="hits in results">
-    <h3>{{hits.document.title}}</h3>
-    <span>{{hits.document.body}}</span>
-  </div>
--->
 </div>
