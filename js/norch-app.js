@@ -29,14 +29,6 @@ angular
       $scope.readmeHTML = markdown.toHTML(data);
     });
   })
-  .controller('aboutCtrl', function ($scope, $http, $sce) {
-    $http.get('package.json').success(function (data) {
-      $scope.packageJSON = JSON.stringify(data, null, 2);
-      $scope.trustPackageJSON = function () {
-        return $sce.trustAsHtml($scope.packageJSON);
-      };
-    });
-  })
   .controller('searchCtrl', function ($scope, Norch) {
     $scope.norch = new Norch();
   })
