@@ -78,15 +78,16 @@ angular
       }
       var url = 'search?q=' + this.q + '&offset=' + this.offset +
         '&pagesize=' + this.pagesize;
-      var possibleFilters = ['places', 'topics', 'organisations'];
+      var possibleFilters = [];
+      if ($location.search()['facets']) {
+        url += '&facets=' + $location.search()['facets'];
+        possibleFilters = $location.search()['facets'].split(',');
+      }
       for (var i = 0; i < possibleFilters.length; i++) {
         if ($location.search()['filter[' + possibleFilters[i] + '][]']) {
           url += '&filter[' + possibleFilters[i] + '][]=' +
           $location.search()['filter[' + possibleFilters[i] + '][]'];
         }
-      }
-      if ($location.search()['facets']) {
-        url += '&facets=' + $location.search()['facets'];
       }
       url += '&teaser=body';
       $http.get(url).success(function(data) {
