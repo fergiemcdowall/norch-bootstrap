@@ -4,9 +4,21 @@ html {overflow: -moz-scrollbars-vertical; overflow: scroll;}
 /*dirty hack to disable TOC links in HTMLed README.md*/
 .ng-binding li a {pointer-events: none;cursor: default;}
 .navbar-default{margin-top:20px}
-#searchbox{width:400px}
+
+@media (min-width: 300px) {
+  #searchbox{width:270px}
+}
+@media (min-width: 400px) {
+  #searchbox{width:370px}
+}
+@media (min-width: 500px) {
+  #searchbox{width:470px}
+}
+@media (min-width: 768px) {
+  #searchbox{width:600px}
+}
 .red{color:red}
 
-#viewdiv{padding-top: 50px}
+#viewdiv{padding-top: 30px}
 
 .sc-em{font-weight:bold}
