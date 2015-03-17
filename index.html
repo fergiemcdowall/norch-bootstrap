@@ -26,21 +26,6 @@
       </div>
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <form class="navbar-form navbar-left" role="search">
-          <div class="input-group" ng-controller="instantSearchCtrl">
-            <form method="get">
-              <input type="text"
-                     class="form-control"
-                     placeholder="Search"
-                     id="searchbox"
-                     autofocus="autofocus"
-                     class="typeahead"
-                     ng-model="searchString"
-                     typeahead="suggestion for suggestion in suggestions($viewValue)"
-                     typeahead-on-select="onSelect($item)">
-            </form>
-          </div>
-        </form>
         <ul class="nav navbar-nav navbar-right">
           <li ng-class="{active:isActive('/add')}"><a href="#/add">Add</a></li>
           <li ng-class="{active:isActive('/delete')}"><a href="#/delete">Delete</a></li>
@@ -48,8 +33,25 @@
         </ul>
       </div>
     </nav>
+
+    <form class="" role="search">
+      <div class="input-group" ng-controller="instantSearchCtrl">
+        <form method="get">
+          <input type="text"
+                 class="form-control"
+                 placeholder="Search"
+                 id="searchbox"
+                 autofocus="autofocus"
+                 class="typeahead"
+                 ng-model="searchString"
+                 typeahead="suggestion for suggestion in suggestions($viewValue)"
+                 typeahead-on-select="onSelect($item)">
+        </form>
+      </div>
+    </form>
     
     <div id="viewdiv" ng-view></div>
+
     <!-- Inject angular an jquery and other good stuff. -->
     <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="https://code.angularjs.org/1.3.4/angular.min.js"></script>
